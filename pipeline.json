@@ -1,0 +1,33 @@
+{
+  "project": "apocalypse-startup-ep01",
+  "created_at": "2026-04-07T18:22:00.841084+00:00",
+  "github_repo": "ykzhujiang/apocalypse-startup-ep01",
+  "config": {
+    "theme": "末日求生×创业×系统觉醒：前AI创业者在废土上激活末日创业系统，用创业思维重建文明",
+    "genre": "sci-fi",
+    "style": "realistic",
+    "duration": 15,
+    "characters": 4,
+    "setting": "近未来废土中国城市",
+    "ratio": "9:16",
+    "episode": "ep01"
+  },
+  "status": "not_started",
+  "steps": {
+    "step1b": {
+      "status": "not_started"
+    },
+    "step1.5": {
+      "status": "not_started"
+    },
+    "step3": {
+      "status": "not_started"
+    },
+    "step4": {
+      "status": "not_started"
+    },
+    "step6": {
+      "status": "not_started"
+    }
+  }
+}
