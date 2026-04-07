@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ep01</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --card-bg: #161b22;
+  --card-border: #30363d;
+  --text: #e6edf3;
+  --text-secondary: #8b949e;
+  --accent: #58a6ff;
+  --dialogue-bg: rgba(88,166,255,0.08);
+  --dialogue-color: #79c0ff;
+  --part-num-color: #f0883e;
+  --camera-bg: rgba(139,148,158,0.08);
+  --header-gradient: linear-gradient(135deg, #1a1f2e 0%, #0d1117 100%);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px;
+}
+/* Header */
+.page-header {
+  background: var(--header-gradient);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 24px 20px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, #58a6ff, #bc8cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.meta-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.meta-tag {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 99px;
+  background: rgba(88,166,255,0.1);
+  color: var(--accent);
+  border: 1px solid rgba(88,166,255,0.2);
+}
+/* Collapsible sections */
+details {
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  background: var(--card-bg);
+}
+details summary {
+  padding: 14px 16px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  user-select: none;
+}
+details summary:hover { color: var(--text); }
+details[open] summary { border-bottom: 1px solid var(--card-border); }
+.section-body {
+  padding: 12px 16px;
+}
+/* Character items */
+.char-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(48,54,61,0.5);
+  font-size: 14px;
+}
+.char-item:last-child { border-bottom: none; }
+.char-dot {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.char-desc {
+  display: block;
+  margin-top: 4px;
+  margin-left: 16px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+/* Scene items */
+.scene-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(48,54,61,0.5);
+  font-size: 14px;
+}
+.scene-item:last-child { border-bottom: none; }
+.scene-desc {
+  display: block;
+  margin-top: 4px;
+  margin-left: 4px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+/* Segment card */
+.segment-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.segment-card:hover {
+  border-color: rgba(88,166,255,0.4);
+}
+.segment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px 8px;
+}
+.segment-num {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.segment-dur {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: rgba(240,136,62,0.12);
+  color: var(--part-num-color);
+}
+.segment-meta {
+  padding: 0 16px 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+/* Physical state inside segment */
+.segment-card .physical-state {
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  background: rgba(139,148,158,0.03);
+}
+.segment-card .physical-state summary {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.ps-item {
+  padding: 4px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+/* Parts */
+.parts-container {
+  padding: 10px 16px 6px;
+}
+.part-line {
+  padding: 8px 0;
+  font-size: 15px;
+  line-height: 1.8;
+  border-bottom: 1px solid rgba(48,54,61,0.3);
+}
+.part-line:last-child { border-bottom: none; }
+.part-num {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--part-num-color);
+  background: rgba(240,136,62,0.1);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.char-tag {
+  font-weight: 600;
+}
+.dialogue {
+  color: var(--dialogue-color);
+  background: var(--dialogue-bg);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-style: italic;
+}
+/* Camera */
+.camera-line {
+  padding: 8px 16px 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  background: var(--camera-bg);
+  border-top: 1px solid var(--card-border);
+}
+/* Stats */
+.stats-bar {
+  text-align: center;
+  padding: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.stats-bar span {
+  margin: 0 8px;
+}
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  .container { padding: 10px; }
+  .page-header { padding: 18px 14px; }
+  .page-header h1 { font-size: 19px; }
+  .part-line { font-size: 14px; }
+  .segment-header { padding: 10px 12px 6px; }
+  .parts-container { padding: 8px 12px 4px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="page-header">
+  <h1>ep01</h1>
+  <div class="meta-tags">
+    <span class="meta-tag">🎬 realistic</span>
+    <span class="meta-tag">🌍 近未来废土中国城市</span>
+    <span class="meta-tag">🎨 cinematic realistic, post-apocalyptic wa...</span>
+    <span class="meta-tag">📊 2 segments</span>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <span>👤 4 角色</span>
+  <span>🏞️ 1 场景</span>
+  <span>🎬 2 分镜</span>
+</div>
+
+<details>
+  <summary>👤 角色设定 (4)</summary>
+  <div class="section-body"><div class="char-item"><span class="char-dot" style="background:#e74c3c"></span><strong>[林创]</strong><span class="char-desc">28岁男性，身高180cm匀称体型，小麦色皮肤，瓜子脸剑眉星目高鼻梁，黑色凌乱碎发，穿破旧灰色冲锋衣和黑色战术背心，戴着一块碎屏智能手表</span></div>
+<div class="char-item"><span class="char-dot" style="background:#3498db"></span><strong>[雷子]</strong><span class="char-desc">25岁男性，身高185cm壮硕体型，古铜色皮肤，国字脸浓眉大眼厚嘴唇，黑色平头，穿无袖军绿背心和迷彩长裤，左手臂绑着一条破布</span></div>
+<div class="char-item"><span class="char-dot" style="background:#2ecc71"></span><strong>[楚瑶]</strong><span class="char-desc">26岁女性，身高168cm纤细体型，白皙皮肤，瓜子脸细长眼小巧鼻子，黑褐色高马尾，穿黑色皮夹克，额头戴着防风护目镜</span></div>
+<div class="char-item"><span class="char-dot" style="background:#f39c12"></span><strong>[独眼]</strong><span class="char-desc">40岁男性，身高182cm微胖体型，暗黄粗糙皮肤，圆脸右眼戴黑色眼罩左眼圆瞪，光头，穿铁锈色破洞风衣，手持一把生锈的砍刀</span></div>
+</div>
+</details>
+
+<details>
+  <summary>🏞️ 场景描述 (1)</summary>
+  <div class="section-body"><div class="scene-item"><strong>[废弃工厂-夜]</strong><span class="scene-desc">近未来废土中国老式工厂，地面散落生锈齿轮和带中文“安全生产”字样的残破招牌，月光透过破败屋顶洒下幽冷蓝光，四周燃烧昏暗篝火，气氛压抑紧张</span></div>
+</div>
+</details>
+
+
+<div class="segment-card">
+  <div class="segment-header">
+    <span class="segment-num">Segment 1</span>
+    <span class="segment-dur">≤7s</span>
+  </div>
+  <div class="segment-meta">📍 [废弃工厂-夜] &nbsp;|&nbsp; 👥 <span class="char-tag" style="color:#e74c3c">[林创]</span>, <span class="char-tag" style="color:#f39c12">[独眼]</span></div>
+  <details class="physical-state">
+<summary>📐 Physical State</summary>
+<div class="ps-item">**<span class="char-tag" style="color:#e74c3c">[林创]</span>**: 画面左侧，单膝跪地，右手捂着左臂，低头看地面</div><div class="ps-item">**<span class="char-tag" style="color:#f39c12">[独眼]</span>**: 画面右侧，站立，右手握生锈砍刀下垂，面向<span class="char-tag" style="color:#e74c3c">[林创]</span></div>
+</details>
+  <div class="parts-container">
+    <div class="part-line"><span class="part-num">P1</span>画面右侧的<span class="char-tag" style="color:#f39c12">[独眼]</span>嘴角上扬狞笑，右手握砍刀指向左下。</div>
+<div class="part-line"><span class="part-num">P2</span><span class="char-tag" style="color:#f39c12">[独眼]</span>俯视地面，冷笑说：<span class="dialogue">“你的时代结束了，废物。”</span></div>
+<div class="part-line"><span class="part-num">P3</span>画面左侧的<span class="char-tag" style="color:#e74c3c">[林创]</span>缓缓抬头，双眼微睁，瞳孔映出蓝光。</div>
+<div class="part-line"><span class="part-num">P4</span><span class="char-tag" style="color:#e74c3c">[林创]</span>嘴角微翘，低声说：<span class="dialogue">“不，废土创业路演才刚开始。”</span></div>
+
+  </div>
+  <div class="camera-line">🎥 中景，平视角度，固定机位，正常速度</div>
+</div>
+
+<div class="segment-card">
+  <div class="segment-header">
+    <span class="segment-num">Segment 2</span>
+    <span class="segment-dur">≤8s</span>
+  </div>
+  <div class="segment-meta">📍 [废弃工厂-夜] &nbsp;|&nbsp; 👥 <span class="char-tag" style="color:#3498db">[雷子]</span>, <span class="char-tag" style="color:#e74c3c">[林创]</span>, <span class="char-tag" style="color:#2ecc71">[楚瑶]</span></div>
+  <details class="physical-state">
+<summary>📐 Physical State</summary>
+<div class="ps-item">**<span class="char-tag" style="color:#3498db">[雷子]</span>**: 画面左侧，半蹲姿势，左手撑地，面向<span class="char-tag" style="color:#e74c3c">[林创]</span></div><div class="ps-item">**<span class="char-tag" style="color:#e74c3c">[林创]</span>**: 画面中央，单膝跪地，右手悬在半空，面向右侧虚空</div><div class="ps-item">**<span class="char-tag" style="color:#2ecc71">[楚瑶]</span>**: 画面右侧，站立，双手紧握扳手护在胸前，面向<span class="char-tag" style="color:#e74c3c">[林创]</span></div>
+</details>
+  <div class="parts-container">
+    <div class="part-line"><span class="part-num">P1</span>画面中央的<span class="char-tag" style="color:#e74c3c">[林创]</span>缓缓站直，右手向右滑动，双眼微眯。</div>
+<div class="part-line"><span class="part-num">P2</span><span class="char-tag" style="color:#e74c3c">[林创]</span>看半空面板，低声说：<span class="dialogue">“末日创业系统，启动。”</span></div>
+<div class="part-line"><span class="part-num">P3</span>画面左侧的<span class="char-tag" style="color:#3498db">[雷子]</span>双眼猛睁大，嘴巴微张地盯着<span class="char-tag" style="color:#e74c3c">[林创]</span>。</div>
+<div class="part-line"><span class="part-num">P4</span>画面右侧的<span class="char-tag" style="color:#2ecc71">[楚瑶]</span>眉头微皱，双手紧握扳手，眼神诧异。</div>
+
+  </div>
+  <div class="camera-line">🎥 全景，平视角度，缓慢右移，正常速度</div>
+</div>
+
+
+</div>
+
+<script>
+// Auto-open first segment's physical state on load (optional interactivity)
+document.addEventListener('DOMContentLoaded', function() {
+  // Smooth scroll spy - highlight current segment
+  const cards = document.querySelectorAll('.segment-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.borderColor = 'rgba(88,166,255,0.5)';
+      } else {
+        e.target.style.borderColor = '';
+      }
+    });
+  }, { threshold: 0.3 });
+  cards.forEach(c => observer.observe(c));
+});
+</script>
+</body>
+</html>
